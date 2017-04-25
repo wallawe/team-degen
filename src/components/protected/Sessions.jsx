@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { ref, firebaseAuth } from '../../config/constants';
 import moment from 'moment';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, Area, Tooltip, Legend } from 'recharts';
 
 export default class Sessions extends Component {
     constructor() {
@@ -22,8 +23,23 @@ export default class Sessions extends Component {
                         })
                     }
                 </ul>
+
+                <ResponsiveContainer width="80%" height={300}>
+                    <LineChart data={this.state.sessions}>
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Line type="monotone" dataKey="profit" stroke="#8884d8" />
+                        <ReferenceLine y="0" stroke="#000000" strokeDasharray="3 3" />
+                        <XAxis dataKey="date" />
+                        <YAxis dataKey="profit"/>
+                        <Area dataKey="profit" type="monotone" fill="#0088cc" stroke="#8884d8"/>
+                        <Tooltip />
+                        <Legend />
+                        <Area type="monotone" dataKey="profit" stroke="#8884d8" fill="#8884d8" />
+                    </LineChart>
+                </ResponsiveContainer>
+
                 <hr />
-                <h3>Total Profit Over All Sessions: $ <strong className={this.state.totalProfit >= 0 ? 'green' : 'red'}>{this.state.totalProfit}</strong></h3>
+                <h3 style={{'marginBottom': '100px'}}>Total Profit Over All Sessions: $ <strong className={this.state.totalProfit >= 0 ? 'green' : 'red'}>{this.state.totalProfit}</strong></h3>
             </div>
         )
     }
