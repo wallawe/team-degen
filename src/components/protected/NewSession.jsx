@@ -10,28 +10,40 @@ export default class Sessions extends Component {
             uid: '',
             gameType: 'nlh',
             buyin: '',
-            cashout: ''
+            cashout: '',
+            runningTotal: ''
         }
     }
 
     _submitForm(e) {
         e.preventDefault();
 
-        let sessionsList = ref.child(`users/${this.state.uid}/sessions`);
-        let { buyin, cashout, gameType } = this.state;
+        const sessionsList = ref.child(`users/${this.state.uid}/sessions`);
+        const userInfo = ref.child(`users/${this.state.uid}/info`);
+        const { buyin, cashout, gameType, runningTotal, uid, email } = this.state;
+        const profit = parseFloat(cashout - buyin);
+        const newRunningTotal = runningTotal + profit;
 
-        sessionsList.push({
+        let newSessionObject = {
             date: Date.now(),
             gameType: gameType,
             buyin: buyin,
             cashout: cashout,
-            profit: parseFloat(cashout - buyin)
-        }).then( () => {
-            this.setState({
-                buyin: '',
-                cashout: ''
-            });
+            profit: profit,
+            runningTotal: newRunningTotal
+        }
+
+        let userObject = {
+            email: email,
+            uid: uid,
+            runningTotal: newRunningTotal
+        }
+
+        // add session to list, update running total, add total at this point in time
+        sessionsList.push(newSessionObject).then(() => {
+            userInfo.update(userObject);
             alert('success');
+            // redirect to dashboard
         });
     }
 
@@ -63,9 +75,8 @@ export default class Sessions extends Component {
         const userId = getCurrentUserId();
 
         getCurrentUserInfo(userId).then( (data) => {
-            // data.val() is a firebase thing you have to do
-            let { email, uid } = data.val().info;
-            this.setState({ email, uid });
+            let { email, uid, runningTotal } = data.val().info; // data.val() is a firebase thing you have to do
+            this.setState({ email, uid, runningTotal });
         });
 
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ref, firebaseAuth } from '../../config/constants';
 import moment from 'moment';
-import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, Area, Tooltip, Legend } from 'recharts';
+import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, ReferenceLine, Tooltip } from 'recharts';
 
 export default class Sessions extends Component {
     constructor() {
@@ -12,29 +12,31 @@ export default class Sessions extends Component {
         }
     }
 
+    logIt(e) {
+        console.log(e);
+    }
+
+    formatGraphDate(date) {
+        return moment(date).format('MM/DD/YY')
+    }
     render() {
         return (
             <div>
-                <h2>Sessions</h2>
+                <h2>{this.state.sessions.length} Sessions</h2>
                 <ul>
-                    {
-                        this.state.sessions.map((session, i) => {
-                            return <SessionList gameType={session.gameType} profit={session.profit} key={i} when={session.date}></SessionList>
-                        })
-                    }
+                    {this.state.sessions.map((session, i) => {
+                        return <SessionList gameType={session.gameType} profit={session.profit} key={i} when={session.date}></SessionList>
+                    })}
                 </ul>
 
                 <ResponsiveContainer width="80%" height={300}>
-                    <LineChart data={this.state.sessions}>
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Line type="monotone" dataKey="profit" stroke="#8884d8" />
-                        <ReferenceLine y="0" stroke="#000000" strokeDasharray="3 3" />
-                        <XAxis dataKey="date" />
-                        <YAxis dataKey="profit"/>
-                        <Area dataKey="profit" type="monotone" fill="#0088cc" stroke="#8884d8"/>
-                        <Tooltip />
-                        <Legend />
-                        <Area type="monotone" dataKey="profit" stroke="#8884d8" fill="#8884d8" />
+                    <LineChart data={this.state.sessions} onClick={this.logIt.bind(this)}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#dddddd" />
+                        <Line type="monotone" dataKey="runningTotal" stroke="#8884d8" />
+                        <ReferenceLine y="0" stroke="#000000" />
+                        <XAxis dataKey="date" tickFormatter={this.formatGraphDate.bind(this)} />
+                        <YAxis dataKey="runningTotal"/>
+                        <Tooltip labelFormatter={(a) => this.formatGraphDate(a)} />
                     </LineChart>
                 </ResponsiveContainer>
 
