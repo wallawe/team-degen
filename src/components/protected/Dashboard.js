@@ -1,10 +1,13 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class Dashboard extends Component {
   render () {
     return (
       <div>
-        Dashboard. This is a protected route. You can only see this if you're authed.
+        <h1>Dashboard you can only see if authed</h1>
+        <Link to="/sessions">Sessions</Link><br/>
+        <Link to="/new-session">New Session</Link>
       </div>
     )
   }
