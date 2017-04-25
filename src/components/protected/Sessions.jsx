@@ -6,7 +6,8 @@ export default class Sessions extends Component {
     constructor() {
         super();
         this.state = {
-            sessions: []
+            sessions: [],
+            totalProfit: ''
         }
     }
 
@@ -21,6 +22,8 @@ export default class Sessions extends Component {
                         })
                     }
                 </ul>
+                <hr />
+                <h3>Total Profit Over All Sessions: $ <strong className={this.state.totalProfit >= 0 ? 'green' : 'red'}>{this.state.totalProfit}</strong></h3>
             </div>
         )
     }
@@ -34,7 +37,13 @@ export default class Sessions extends Component {
                 return snapshot.val().sessions[key];
             });
 
-            this.setState({ sessions })
+            let totalProfit = sessions.map((item) => {
+                return item.profit;
+            }).reduce((acc, val) => {
+                return acc + val;
+            }, 0);
+
+            this.setState({ sessions, totalProfit })
         });
     }
 }
