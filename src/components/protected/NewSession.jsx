@@ -11,7 +11,10 @@ export default class Sessions extends Component {
             gameType: 'nlh',
             buyin: '',
             cashout: '',
-            runningTotal: ''
+            runningTotal: '',
+            startTime: '',
+            endTime: '',
+            blinds: '',
         }
     }
 
@@ -63,6 +66,7 @@ export default class Sessions extends Component {
                         <option value="razz">Razz</option>
                         <option value="stud">7 Card Stud</option>
                     </select><br/>
+                    <input type="time" value={this.state.startTime} onChange={ (e) => { this.setState({ startTime: e.target.value }) } } /><br/>
                     <input type="number" required value={this.state.buyin} onChange={ (e) => { this.setState({ buyin: e.target.value }) } } placeholder="Buy In" /><br/>
                     <input type="number" required value={this.state.cashout} onChange={ (e) => { this.setState({ cashout: e.target.value }) } } placeholder="Cash out" /><br/>
                     <button type="submit">Submit!</button>
