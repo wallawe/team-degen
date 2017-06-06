@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import { ref } from '../../config/constants';
 import { getCurrentUserId, getCurrentUserInfo } from '../../config/api';
 
+const formatSeconds = (sec) => {
+    return Math.floor(sec / 60) + ':' + ('0' + sec % 60).slice(-2)
+}
+
 export default class Sessions extends Component {
     constructor() {
         super();
@@ -15,7 +19,37 @@ export default class Sessions extends Component {
             startTime: '',
             endTime: '',
             blinds: '',
+            secondsElapsed: 0,
+            lastClearedIncrementer: null
         }
+
+        this.incrementer = null;
+    }
+
+    start() {
+        this.incrementer = setInterval(() => {
+            this.setState({
+                secondsElapsed: this.state.secondsElapsed + 1
+            });
+        }, 1000);
+    }
+
+    stop() {
+        clearInterval(this.incrementer);
+        this.setState({
+            lastClearedIncrementer: this.incrementer
+        });
+    }
+
+    reset() {
+        clearInterval(this.incrementer);
+        this.setState({
+            secondsElapsed: 0
+        });
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.incrementer);
     }
 
     _submitForm(e) {
@@ -29,11 +63,11 @@ export default class Sessions extends Component {
 
         let newSessionObject = {
             date: Date.now(),
-            gameType: gameType,
-            buyin: buyin,
-            cashout: cashout,
-            profit: profit,
-            runningTotal: newRunningTotal
+            runningTotal: newRunningTotal,
+            gameType,
+            buyin,
+            cashout,
+            profit
         }
 
         let userObject = {
@@ -58,6 +92,7 @@ export default class Sessions extends Component {
         return (
             <div>
                 <h3>Submit a new session</h3>
+
                 <form onSubmit={this._submitForm.bind(this)}>
                     <select value={this.state.gameType} onChange={this._changeGame.bind(this)}>
                         <option value="nlh">No Limit Holdem</option>
@@ -71,6 +106,20 @@ export default class Sessions extends Component {
                     <input type="number" required value={this.state.cashout} onChange={ (e) => { this.setState({ cashout: e.target.value }) } } placeholder="Cash out" /><br/>
                     <button type="submit">Submit!</button>
                 </form>
+
+                {formatSeconds(this.state.secondsElapsed)}
+
+                {(this.state.secondsElapsed === 0 ||
+                    this.incrementer === this.state.lastClearedIncrementer
+                    ? <button className="start-btn" onClick={this.start.bind(this)}>start</button>
+                    : <button className="stop-btn" onClick={this.stop.bind(this)}>stop</button>
+                )}
+
+                {(this.state.secondsElapsed !== 0 &&
+                    this.incrementer === this.state.lastClearedIncrementer
+                    ? <button onClick={this.reset.bind(this)}>reset</button>
+                    : null
+                )}
             </div>
         )
     }

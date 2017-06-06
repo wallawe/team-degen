@@ -12,7 +12,7 @@ export default class Sessions extends Component {
         }
     }
 
-    logIt(e) {
+    showSessionSummary(e) {
         console.log(e);
     }
 
@@ -30,7 +30,7 @@ export default class Sessions extends Component {
                 </ul>
 
                 <ResponsiveContainer width="80%" height={300}>
-                    <LineChart data={this.state.sessions} onClick={this.logIt.bind(this)}>
+                    <LineChart data={this.state.sessions} onClick={this.showSessionSummary.bind(this)}>
                         <CartesianGrid strokeDasharray="3 3" stroke="#dddddd" />
                         <Line type="monotone" dataKey="runningTotal" stroke="#8884d8" />
                         <ReferenceLine y="0" stroke="#000000" />
