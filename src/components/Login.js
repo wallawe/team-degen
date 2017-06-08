@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { login, resetPassword } from '../helpers/auth'
+import React, { Component } from 'react';
+import { login, resetPassword } from '../helpers/auth';
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 
 function setErrorMsg(error) {
   return {
@@ -8,10 +10,18 @@ function setErrorMsg(error) {
 }
 
 export default class Login extends Component {
-  state = { loginMessage: null }
-  handleSubmit = (e) => {
+  constructor(props){
+    super(props);
+    this.state = {
+      loginMessage: null,
+      email: '',
+      pw: '',
+    }
+  }
+  
+  handleSubmit(e) {
     e.preventDefault()
-    login(this.email.value, this.pw.value)
+    login(this.state.email, this.state.pw)
       .catch((error) => {
           this.setState(setErrorMsg('Invalid username/password.'))
         })
@@ -23,26 +33,33 @@ export default class Login extends Component {
   }
   render () {
     return (
-      <div className="col-sm-6 col-sm-offset-3">
-        <h1> Login </h1>
-        <form onSubmit={this.handleSubmit}>
-          <div className="form-group">
-            <label>Email</label>
-            <input className="form-control" ref={(email) => this.email = email} placeholder="Email"/>
+      <div>
+        <h1>Login</h1>
+        <form onSubmit={this.handleSubmit.bind(this)}>
+
+          <div>
+            <TextField
+              floatingLabelText="Email"
+              type="email"
+              onChange={(e) => this.setState({email: e.target.value})}
+            />
           </div>
-          <div className="form-group">
-            <label>Password</label>
-            <input type="password" className="form-control" placeholder="Password" ref={(pw) => this.pw = pw} />
+
+          <div>
+            <TextField
+              floatingLabelText="Password"
+              type="password"
+              onChange={(e) => this.setState({pw: e.target.value})}
+            />
           </div>
           {
             this.state.loginMessage &&
-            <div className="alert alert-danger" role="alert">
-              <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-              <span className="sr-only">Error:</span>
-              &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword} className="alert-link">Forgot Password?</a>
+            <div>
+              <span>Error:</span>
+              &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword}>Forgot Password?</a>
             </div>
           }
-          <button type="submit" className="btn btn-primary">Login</button>
+          <RaisedButton label="Login" primary={true} type="submit"/>
         </form>
       </div>
     )

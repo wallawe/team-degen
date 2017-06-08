@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
-import 'bootstrap/dist/css/bootstrap.css'
-import { Route, BrowserRouter, Link, Redirect, Switch } from 'react-router-dom'
-import Login from './Login'
-import Register from './Register'
-import Home from './Home'
-import Dashboard from './protected/Dashboard'
-import Sessions from './protected/Sessions';
-import NewSession from './protected/NewSession';
+import { Route, BrowserRouter, Redirect, Switch } from 'react-router-dom'
+import Login from './login'
+import Register from './register'
+import Home from './home'
+import NavBar from './navbar'
+import Sessions from './protected/sessions';
+import NewSession from './protected/new_session';
 import { logout } from '../helpers/auth';
 import { firebaseAuth } from '../config/constants';
 
@@ -59,45 +58,15 @@ export default class App extends Component {
     return this.state.loading === true ? <h1>Loading</h1> : (
       <BrowserRouter>
         <div>
-          <nav className="navbar navbar-default navbar-static-top">
-            <div className="container">
-              <div className="navbar-header">
-                <Link to="/" className="navbar-brand">Team Degen</Link>
-              </div>
-              <ul className="nav navbar-nav pull-right">
-                <li>
-                  <Link to="/" className="navbar-brand">Home</Link>
-                </li>
-                { this.state.authed ? <li><Link to="/dashboard" className="navbar-brand">Dashboard</Link></li> : '' }
-                <li>
-                  {this.state.authed
-                    ? <button
-                        style={{border: 'none', background: 'transparent'}}
-                        onClick={() => {
-                          logout()
-                        }}
-                        className="navbar-brand">Logout</button>
-                    : <span>
-                        <Link to="/login" className="navbar-brand">Login</Link>
-                        <Link to="/register" className="navbar-brand">Register</Link>
-                      </span>}
-                </li>
-              </ul>
-            </div>
-          </nav>
-          <div className="container">
-            <div className="row">
-              <Switch>
-                <Route path='/' exact component={Home} />
-                <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-                <PublicRoute authed={this.state.authed} path='/register' component={Register} />
-                <PrivateRoute authed={this.state.authed} path='/dashboard' component={Dashboard} />
-                <PrivateRoute authed={this.state.authed} path='/sessions' component={Sessions} />
-                <PrivateRoute authed={this.state.authed} path='/new-session' component={NewSession} />
-                <Route render={() => <h3>No Match</h3>} />
-              </Switch>
-            </div>
-          </div>
+          <NavBar logout={logout} authed={this.state.authed} />
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <PublicRoute authed={this.state.authed} path='/login' component={Login} />
+            <PublicRoute authed={this.state.authed} path='/register' component={Register} />
+            <PrivateRoute authed={this.state.authed} path='/dashboard' component={Sessions} />
+            <PrivateRoute authed={this.state.authed} path='/new-session' component={NewSession} />
+            <Route render={() => <h3>No Match</h3>} />
+          </Switch>
         </div>
       </BrowserRouter>
     );
