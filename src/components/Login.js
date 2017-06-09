@@ -2,12 +2,7 @@ import React, { Component } from 'react';
 import { login, resetPassword } from '../helpers/auth';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-
-function setErrorMsg(error) {
-  return {
-    loginMessage: error
-  }
-}
+import Paper from 'material-ui/Paper';
 
 export default class Login extends Component {
   constructor(props){
@@ -18,49 +13,54 @@ export default class Login extends Component {
       pw: '',
     }
   }
-  
+
   handleSubmit(e) {
     e.preventDefault()
     login(this.state.email, this.state.pw)
       .catch((error) => {
-          this.setState(setErrorMsg('Invalid username/password.'))
+          this.setState({loginMessage: 'Invalid username/password.'})
         })
   }
+
   resetPassword = () => {
-    resetPassword(this.email.value)
-      .then(() => this.setState(setErrorMsg(`Password reset email sent to ${this.email.value}.`)))
-      .catch((error) => this.setState(setErrorMsg(`Email address not found.`)))
+    resetPassword(this.state.email)
+      .then(() => {
+        this.setState({loginMessage: null })
+        alert(`Password reset email sent to ${this.state.email}.`)
+      })
+      .catch((error) => {
+        this.setState({loginMessage: 'Email address not found. Please enter it above.'}
+      )})
   }
+
   render () {
     return (
-      <div>
-        <h1>Login</h1>
-        <form onSubmit={this.handleSubmit.bind(this)}>
-
-          <div>
+      <div className="col-md-4 offset-md-4 col-sm-8 offset-sm-2">
+        <h1 className="header">Login</h1>
+        <Paper zDepth={1} className="paper-box">
+          <form onSubmit={this.handleSubmit.bind(this)}>
             <TextField
               floatingLabelText="Email"
               type="email"
+              fullWidth={true}
               onChange={(e) => this.setState({email: e.target.value})}
             />
-          </div>
-
-          <div>
             <TextField
               floatingLabelText="Password"
               type="password"
+              fullWidth={true}
               onChange={(e) => this.setState({pw: e.target.value})}
             />
-          </div>
-          {
-            this.state.loginMessage &&
-            <div>
-              <span>Error:</span>
-              &nbsp;{this.state.loginMessage} <a href="#" onClick={this.resetPassword}>Forgot Password?</a>
-            </div>
-          }
-          <RaisedButton label="Login" primary={true} type="submit"/>
-        </form>
+            <RaisedButton label="Login" primary={true} type="submit" className="top-20"/>
+
+            {
+              this.state.loginMessage &&
+              <p className="error">{this.state.loginMessage}</p>
+            }
+          </form>
+        </Paper>
+
+        <a href="#" className="forgot-pw" onClick={this.resetPassword}>Forgot Password?</a>
       </div>
     )
   }

@@ -4,10 +4,10 @@ import Login from './login'
 import Register from './register'
 import Home from './home'
 import NavBar from './navbar'
-import Sessions from './protected/sessions';
-import NewSession from './protected/new_session';
-import { logout } from '../helpers/auth';
+import Sessions from './protected/sessions_all';
+import NewSession from './protected/sessions_new';
 import { firebaseAuth } from '../config/constants';
+import CircularProgress from 'material-ui/CircularProgress';
 
 function PrivateRoute ({component: Component, authed, ...rest}) {
   return (
@@ -15,7 +15,7 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
       {...rest}
       render={(props) => authed === true
         ? <Component {...props} />
-        : <Redirect to={{pathname: '/login', state: {from: props.location}}} />}
+        : <Redirect to={{pathname: '/', state: {from: props.location}}} />}
     />
   )
 }
@@ -42,31 +42,35 @@ export default class App extends Component {
         this.setState({
           authed: true,
           loading: false,
-        })
+        });
       } else {
         this.setState({
           authed: false,
           loading: false
-        })
+        });
       }
-    })
+    });
   }
   componentWillUnmount () {
     this.removeListener()
   }
   render() {
-    return this.state.loading === true ? <h1>Loading</h1> : (
+    return this.state.loading === true ? <CircularProgress /> : (
       <BrowserRouter>
         <div>
-          <NavBar logout={logout} authed={this.state.authed} />
-          <Switch>
-            <Route path='/' exact component={Home} />
-            <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-            <PublicRoute authed={this.state.authed} path='/register' component={Register} />
-            <PrivateRoute authed={this.state.authed} path='/dashboard' component={Sessions} />
-            <PrivateRoute authed={this.state.authed} path='/new-session' component={NewSession} />
-            <Route render={() => <h3>No Match</h3>} />
-          </Switch>
+          <NavBar authed={this.state.authed} />
+          <div className="container-fluid">
+            <div className="row">
+            <Switch>
+                <Route path='/' exact component={Home} />
+                <PublicRoute authed={this.state.authed} path='/register' component={Register} />
+                <PublicRoute authed={this.state.authed} path='/login' component={Login} />
+                <PrivateRoute authed={this.state.authed} path='/dashboard' component={Sessions} />
+                <PrivateRoute authed={this.state.authed} path='/new-session' component={NewSession} />
+                <Route render={() => <h3>No Match</h3>} />
+              </Switch>
+            </div>
+          </div>
         </div>
       </BrowserRouter>
     );
