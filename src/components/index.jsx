@@ -59,18 +59,14 @@ export default class App extends Component {
       <BrowserRouter>
         <div>
           <NavBar authed={this.state.authed} />
-          <div className="container-fluid">
-            <div className="row">
-            <Switch>
-                <Route path='/' exact component={Home} />
-                <PublicRoute authed={this.state.authed} path='/register' component={Register} />
-                <PublicRoute authed={this.state.authed} path='/login' component={Login} />
-                <PrivateRoute authed={this.state.authed} path='/dashboard' component={Sessions} />
-                <PrivateRoute authed={this.state.authed} path='/new-session' component={NewSession} />
-                <Route render={() => <h3>No Match</h3>} />
-              </Switch>
-            </div>
-          </div>
+          <Switch>
+            <Route path='/' exact component={Home} />
+            <PublicRoute authed={this.state.authed} path='/register' component={Register} />
+            <PublicRoute authed={this.state.authed} path='/login' component={Login} />
+            <PrivateRoute authed={this.state.authed} path='/dashboard' component={Sessions} />
+            <PrivateRoute authed={this.state.authed} path='/new-session' component={NewSession} />
+            <Route render={() => <h3>No Match</h3>} />
+          </Switch>
         </div>
       </BrowserRouter>
     );

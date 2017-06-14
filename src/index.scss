@@ -1,5 +1,13 @@
 @import "./styles/grid.scss";
 
+$dark: #222428;
+$gray-5: #545C64;
+$gray-3: #363D45;
+$blue: #5C9ABE;
+$green: #79CB8C;
+$yellow: #F4C46F;
+$red: #DB6458;
+
 @each $i in [5,10,15,20,25,30,40,50,60,70,80,90,100] {
   .top-#{$i} {
     margin-top: $i + px !important;
@@ -85,7 +93,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 }
 
 .bg-holder {
-  background-image: radial-gradient(rgba(#222428,0.8), rgba(#222428, 0.99)), url(./images/chip_stack4.jpg);
+  background-image: radial-gradient(rgba($gray-5,0.85), rgba($gray-5, 0.99)), url(./images/chip_stack4.jpg);
   position: fixed;
   top: 0;
   right: 0;
@@ -153,14 +161,84 @@ table, caption, tbody, tfoot, thead, tr, th, td {
     height: 700px;
     background: #fff;
     padding: 80px 0;
+
+    h3 {
+      font-size: 40px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #454545;
+    }
   }
 
   .bg-clear {
     height: 700px;
+    background: rgba($dark,0.87);
   }
 
   p {
     font-size: 18px;
   }
+}
 
+.all-sessions {
+
+  .list-item {
+    padding: 10px;
+    display: flex;
+    &:nth-child(even) {
+      background: lighten($dark, 2%);
+    }
+
+    .left-side {
+      padding: 0 20px 0 0px;
+      width: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .win {
+        color: $green;
+      }
+
+      .loss {
+        color: $red;
+      }
+    }
+
+    .right-side {
+      .game-type {
+        font-size: 16px;
+        display: block;
+        margin-bottom: 6px;
+        color: rgba(#fff,0.4);
+      }
+
+      .date {
+        font-weight: 300;
+        color: rgba(#fff, 0.3);
+      }
+    }
+  }
+}
+
+.well {
+  padding: 30px;
+  border-radius: 3px;
+  margin-bottom: 40px;
+
+  &.well-dark {
+    background: $dark;
+
+    h2 {
+      color: $blue;
+      border-bottom: 2px solid $blue;
+      padding-bottom: 5px;
+      margin-bottom: 20px;
+    }
+  }
+
+  &.well-light {
+    background: #fff;
+    color: #454545;
+  }
 }

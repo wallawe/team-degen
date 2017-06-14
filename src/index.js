@@ -10,7 +10,7 @@ import './index.css';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
-const blue = '#5C9ABE';
+export const blue = '#5C9ABE';
 
 const muiTheme = getMuiTheme({
   // https://github.com/callemall/material-ui/blob/master/src/styles/colors.js

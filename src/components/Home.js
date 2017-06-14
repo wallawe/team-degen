@@ -26,18 +26,21 @@ export default class Home extends Component {
         </div>
         <div className="bg-white row" id="learn_more">
           <div className="col-md-5 offset-md-6">
+            <h3>Bankroll Management</h3>
             <p>
             We got fed up with the shitty poker software out there, especially for bankroll management. Existing apps either have a horrible UI,
             are bug riddled, or both. So, despite the fact that you cheap bastards probably won't
-            pay a dime for this, we're putting it out there for the community to use. Good luck at the tables.
+            pay a dime for this, we're putting it out there for the community to use. Maybe we'll get a little run good.
             </p>
           </div>
 
           <div className="col-md-5 offset-md-1">
+            <h3>Analytics and Tracking</h3>
             Screenshots and stuff.
           </div>
 
           <div className="col-md-5 offset-md-6">
+            <h3>Taxes Calculated</h3>
             <p>
               Features: tracking on desktop and mobile (iphone app coming soon), federal taxes calculated, suggestions
               for max buyin for cash games and tourneys based on your current bankroll.

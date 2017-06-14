@@ -1151,7 +1151,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   text-align: center; }
 
 .bg-holder {
-  background-image: radial-gradient(rgba(34, 36, 40, 0.8), rgba(34, 36, 40, 0.99)), url(./images/chip_stack4.jpg);
+  background-image: radial-gradient(rgba(84, 92, 100, 0.85), rgba(84, 92, 100, 0.99)), url(./images/chip_stack4.jpg);
   position: fixed;
   top: 0;
   right: 0;
@@ -1207,9 +1207,54 @@ table, caption, tbody, tfoot, thead, tr, th, td {
   height: 700px;
   background: #fff;
   padding: 80px 0; }
+  .main-page .bg-white h3 {
+    font-size: 40px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #454545; }
 
 .main-page .bg-clear {
-  height: 700px; }
+  height: 700px;
+  background: rgba(34, 36, 40, 0.87); }
 
 .main-page p {
   font-size: 18px; }
+
+.all-sessions .list-item {
+  padding: 10px;
+  display: flex; }
+  .all-sessions .list-item:nth-child(even) {
+    background: #27292e; }
+  .all-sessions .list-item .left-side {
+    padding: 0 20px 0 0px;
+    width: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .all-sessions .list-item .left-side .win {
+      color: #79CB8C; }
+    .all-sessions .list-item .left-side .loss {
+      color: #DB6458; }
+  .all-sessions .list-item .right-side .game-type {
+    font-size: 16px;
+    display: block;
+    margin-bottom: 6px;
+    color: rgba(255, 255, 255, 0.4); }
+  .all-sessions .list-item .right-side .date {
+    font-weight: 300;
+    color: rgba(255, 255, 255, 0.3); }
+
+.well {
+  padding: 30px;
+  border-radius: 3px;
+  margin-bottom: 40px; }
+  .well.well-dark {
+    background: #222428; }
+    .well.well-dark h2 {
+      color: #5C9ABE;
+      border-bottom: 2px solid #5C9ABE;
+      padding-bottom: 5px;
+      margin-bottom: 20px; }
+  .well.well-light {
+    background: #fff;
+    color: #454545; }
