@@ -9,7 +9,6 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   ReferenceLine,
   Tooltip
 } from 'recharts';
@@ -68,23 +67,29 @@ export default class Sessions extends Component {
     )
   }
 
+  getSessions(sessionsObject) {
+    return Object.keys(sessionsObject).map((key) => {
+      return sessionsObject[key];
+    });
+  }
+
   componentDidMount() {
+
     const {currentUser} = firebaseAuth();
-    let sessions;
 
     ref.child(`users/${currentUser.uid}`).once('value', (snapshot) => {
-      sessions = Object.keys(snapshot.val().sessions).map((key) => {
+      const totalProfit = snapshot.val().info.runningTotal;
+      const sessions = Object.keys(snapshot.val().sessions).map((key) => {
         return snapshot.val().sessions[key];
       });
-
-      let totalProfit = sessions.map((item) => {
-        return item.profit;
-      }).reduce((acc, val) => {
-        return acc + val;
-      }, 0);
-
       this.setState({sessions, totalProfit})
     });
+
+      // let totalProfit = sessions.map((item) => {
+      //   return item.profit;
+      // }).reduce((acc, val) => {
+      //   return acc + val;
+      // }, 0);
   }
 }
 

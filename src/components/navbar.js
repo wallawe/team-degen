@@ -32,6 +32,14 @@ class LoggedOut extends Component {
     )
   }
 }
+
+const HomeLink = (authenticated) => {
+  return(
+      authenticated
+      ? <Link to="/dashboard" className="logo"><img alt="" src={logo} /><span>Team</span> Degen</Link>
+      : <Link to="/" className="logo"><img alt="" src={logo} /><span>Team</span> Degen</Link>
+  )
+}
 LoggedOut.muiName = 'FlatButton';
 
 class LoggedIn extends Component {
@@ -84,7 +92,7 @@ export default class NavBar extends Component {
         <div className="bg-holder"></div>
         <AppBar
           style={this.navStyles}
-          title={<Link to="/" className="logo"><img alt="" src={logo} /><span>Team</span> Degen</Link>}
+          title={<HomeLink authenticated={this.props.authed} />}
           iconElementLeft={<div></div>}
           iconElementRight={this.props.authed ? <LoggedIn /> : <LoggedOut/> }
         />
